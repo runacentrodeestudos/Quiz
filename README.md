@@ -3,4 +3,4 @@ O Quiz é uma plataforma interativa desenvolvida para o Centro de Estudos Runa, 
 
 Através de quizzes educativos, os alunos podem testar os seus conhecimentos, reforçar conteúdos escolares e acompanhar a sua evolução de forma prática e intuitiva.
 
-Link: 
+Link: https://runacentrodeestudos.github.io/Quiz/
