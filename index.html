@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qiz - Jogo de Perguntas e Respostas</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="PlasmaShader.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="logo.jpeg" alt="Centro Explica Logo">
+                    <h1>Qiz</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Início</a></li>
+                    <li><a href="#jogar" class="nav-link">Jogar</a></li>
+                    <li><a href="#criar" class="nav-link">Criar</a></li>
+                    <li><a href="#ranking" class="nav-link">Ranking</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-3d">
+                <div id="shader-container"></div>
+            </div>
+            <h2>Qiz - Desafie seus Amigos!</h2>
+            <p>Crie e jogue quizzes incríveis com efeitos visuais impressionantes</p>
+            <button class="cta-button" onclick="startGame()">Começar a Jogar</button>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="jogar" class="courses" style="display: none;">
+        <div class="container">
+            <h2>Escolha um Quiz</h2>
+            <div class="quiz-management">
+                <button class="cta-button" onclick="saveQuizzes()" style="background: #4CAF50;">📥 Baixar Quizzes</button>
+                <label for="importQuizzes" class="cta-button" style="background: #2196F3; cursor: pointer;">📤 Importar Quizzes</label>
+                <input type="file" id="importQuizzes" accept=".json" style="display: none;" onchange="importQuizzes(this.files[0])">
+            </div>
+            <div class="course-grid" id="quizGrid">
+                <!-- Quizzes serão adicionados dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Game Area -->
+    <section id="gameArea" class="vr-experience" style="display: none;">
+        <div class="container">
+            <div id="quizContainer">
+                <div class="quiz-header">
+                    <h2 id="questionTitle">Carregando pergunta...</h2>
+                    <div class="timer" id="timer">30</div>
+                </div>
+                <div class="quiz-answers" id="answersContainer">
+                    <!-- Respostas serão adicionadas dinamicamente -->
+                </div>
+                <div class="score-display">
+                    <span>Pontuação: <span id="currentScore">0</span></span>
+                    <span>Jogador: <span id="playerName">Jogador 1</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Quiz Section -->
+    <section id="criar" class="create-quiz" style="display: none;">
+        <div class="container">
+            <h2>Crie seu Próprio Quiz</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Crie perguntas desafiadoras</h3>
+                    <p>Adicione suas próprias perguntas e respostas para criar um quiz único.</p>
+                    
+                    <div class="contact-form">
+                        <div class="form-group">
+                            <label for="quizSymbol">Símbolo do Quiz:</label>
+                            <select id="quizSymbol" class="symbol-selector">
+                                <option value="🎯">🎯 Alvo</option>
+                                <option value="🧠">🧠 Cérebro</option>
+                                <option value="📚">📚 Livro</option>
+                                <option value="🎮">🎮 Game</option>
+                                <option value="🏆">🏆 Troféu</option>
+                                <option value="⭐">⭐ Estrela</option>
+                                <option value="🔥">🔥 Fogo</option>
+                                <option value="💎">💎 Diamante</option>
+                                <option value="🚀">🚀 Foguete</option>
+                                <option value="🎨">🎨 Arte</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="quizTitle" placeholder="Título do Quiz" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quizDifficulty">Dificuldade:</label>
+                            <select id="quizDifficulty" class="difficulty-selector">
+                                <option value="baixa">Baixa</option>
+                                <option value="media" selected>Média</option>
+                                <option value="alta">Alta</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="quizDescription" placeholder="Descrição do Quiz" rows="3"></textarea>
+                        </div>
+                        <div id="questionsContainer">
+                            <div class="question-item">
+                                <div class="form-group">
+                                    <input type="text" class="question-text" placeholder="Pergunta 1">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="answer-correct" placeholder="Resposta Correta">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="answer-wrong" placeholder="Resposta Incorreta 1">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="answer-wrong" placeholder="Resposta Incorreta 2">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="answer-wrong" placeholder="Resposta Incorreta 3">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="submit-btn" onclick="addQuestion()">Adicionar Pergunta</button>
+                        <button class="submit-btn" onclick="saveQuiz()">Salvar Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ranking Section -->
+    <section id="ranking" class="contact" style="display: none;">
+        <div class="contact-shader-container">
+            <div id="rankingShader"></div>
+        </div>
+        <div class="container">
+            <h2>Ranking de Jogadores</h2>
+            <div class="ranking-management">
+                <button class="cta-button" onclick="saveRanking()" style="background: #4CAF50;">📥 Baixar Ranking</button>
+                <label for="importRanking" class="cta-button" style="background: #2196F3; cursor: pointer;">📤 Importar Ranking</label>
+                <input type="file" id="importRanking" accept=".json" style="display: none;" onchange="importRanking(this.files[0])">
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>🏆 Top 10 Jogadores</h3>
+                        <div id="rankingList">
+                            <!-- Ranking será preenchido dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Qiz</h3>
+                    <p>Por Cognita</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Úteis</h3>
+                    <ul>
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#jogar">Jogar</a></li>
+                        <li><a href="#criar">Criar Quiz</a></li>
+                        <li><a href="#ranking">Ranking</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Qiz. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+[
+    {
+        "id": 1,
+        "title": "Geografia Mundial",
+        "description": "Teste seus conhecimentos sobre o mundo",
+        "symbol": "🌍",
+        "difficulty": "media",
+        "questions": [
+            {
+                "question": "Qual é o maior país do mundo?",
+                "correct": "Rússia",
+                "wrong": ["Canadá", "China", "Estados Unidos"]
+            },
+            {
+                "question": "Qual é a capital do Japão?",
+                "correct": "Tóquio",
+                "wrong": ["Pequim", "Seul", "Bangcoc"]
+            },
+            {
+                "question": "Quantos continentes existem?",
+                "correct": "7",
+                "wrong": ["5", "6", "8"]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Ciências",
+        "description": "Desafie seu conhecimento científico",
+        "symbol": "🧪",
+        "difficulty": "alta",
+        "questions": [
+            {
+                "question": "Qual é o símbolo químico da água?",
+                "correct": "H2O",
+                "wrong": ["CO2", "O2", "NaCl"]
+            },
+            {
+                "question": "Qual planeta é conhecido como Planeta Vermelho?",
+                "correct": "Marte",
+                "wrong": ["Vênus", "Júpiter", "Saturno"]
+            }
+        ]
+    }
+]
